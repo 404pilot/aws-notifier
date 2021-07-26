@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "aws-notifier"
+name = "agent-cooper"
 version = "0.1.0"
 description = "Send out notifications automatically with AWS free services"
 authors = ["404pilot <404pilot@users.noreply.github.com>"]

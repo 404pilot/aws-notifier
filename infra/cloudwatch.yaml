@@ -72,7 +72,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: !Sub "${ProjectName}-Check-Rachio-Next-Schedule"
-      CodeUri: ./../aws_notifier/rachio/
+      CodeUri: ./../agent_cooper/rachio/
       Handler: lambda.handler
       Role: !GetAtt LambdaRole.Arn
       Events:
