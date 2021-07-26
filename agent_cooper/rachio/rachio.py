@@ -8,7 +8,7 @@ class SessionConfig:
     def __init__(
         self,
         read_timeout: int = 60,
-        connect_timeout: int = 5,
+        connect_timeout: int = 30,
         accept: str = "application/json",
         content_type: str = "application/json",
         verify: bool = True,

@@ -23,7 +23,7 @@ def _get_scheduler_range(timezone="America/Chicago", timedelta=1, range=1):
                 )
 
     start = midnight + datetime.timedelta(days=timedelta)
-    end = midnight + datetime.timedelta(days=range)
+    end = midnight + datetime.timedelta(days=timedelta + range)
 
     return start, end
 
