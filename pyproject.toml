@@ -19,7 +19,7 @@ PyYAML = "^5.4.1"
 [tool.taskipy.tasks]
 generate_lambda_requirement = """mkdir -p ./.build && poetry export --with-credentials --without-hashes -f requirements.txt > ./.build/lambda-layer-requirements.txt"""
 
-#generate_lamda_deps = """pip install --disable-pip-version-check -r ./build/lambda-layer-requirements.txt -t ./build/dependencies/python/lib/python3.8/site-packages"""
+generate_lambda_deps = """pip install --disable-pip-version-check -r ./.build/lambda-layer-requirements.txt -t ./.build/dependencies/python/lib/python3.8/site-packages"""
 
 sync_secrets_properties = """
     AWS_PROFILE=${AWS_PROFILE} sops -d ./properties/conf.yaml \

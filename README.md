@@ -1,4 +1,5 @@
 # agent-cooper
+[![CircleCI](https://circleci.com/gh/404pilot/agent-cooper.svg?style=shield)](https://circleci.com/gh/404pilot/agent-cooper)
 
 # TODO add timestamp in s3/retention policy
 # TODO add email to notify error

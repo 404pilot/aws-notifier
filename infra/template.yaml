@@ -8,6 +8,14 @@ Parameters:
     Type: String
 
 Resources:
+  LambdaLayers:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./lambdalayer.yaml
+      Parameters:
+        Stage: !Ref Stage
+        ProjectName: !Ref ProjectName
+
   ProjectVpc:
     Type: AWS::Serverless::Application
     Properties:
@@ -23,6 +31,7 @@ Resources:
       Parameters:
         Stage: !Ref Stage
         ProjectName: !Ref ProjectName
+        LayerArn: !GetAtt LambdaLayers.Outputs.PythonDepLayerArn
         SecurityGroupId: !GetAtt ProjectVpc.Outputs.SecurityGroupId
         VpcPrivateSubnetId1: !GetAtt ProjectVpc.Outputs.VpcPrivateSubnetId1
         VpcPrivateSubnetId2: !GetAtt ProjectVpc.Outputs.VpcPrivateSubnetId2
