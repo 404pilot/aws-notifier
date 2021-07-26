@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+
+Parameters:
+  Stage:
+    Type: String
+  ProjectName:
+    Type: String
+
+Resources:
+  ProjectVpc:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./vpc.yaml
+      Parameters:
+        Stage: !Ref Stage
+        ProjectName: !Ref ProjectName
+
+  CloudWatchCronJob:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./cloudwatch.yaml
+      Parameters:
+        Stage: !Ref Stage
+        ProjectName: !Ref ProjectName
+        SecurityGroupId: !GetAtt ProjectVpc.Outputs.SecurityGroupId
+        VpcPrivateSubnetId1: !GetAtt ProjectVpc.Outputs.VpcPrivateSubnetId1
+        VpcPrivateSubnetId2: !GetAtt ProjectVpc.Outputs.VpcPrivateSubnetId2

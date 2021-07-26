@@ -36,7 +36,7 @@ s3_prep = """
 sam_build = """
     sam build \
         --debug \
-        --template-file ./template.yaml \
+        --template-file ./infra/template.yaml \
         --profile "${AWS_PROFILE}" \
         --region "${AWS_DEFAULT_REGION}" \
         --parameter-overrides "\

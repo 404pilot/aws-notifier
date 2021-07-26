@@ -10,8 +10,10 @@ Parameters:
 Outputs:
   NatIps:
     Value: !Join [ ", ", [ !Ref NatPublicIP1, !Ref NatPublicIP2 ] ]
-  PrivateSubnets:
-    Value: !Join [ ", ", [ !Ref PrivateSubnet1, !Ref PrivateSubnet2 ] ]
+  VpcPrivateSubnetId1:
+    Value: !Ref PrivateSubnet1
+  VpcPrivateSubnetId2:
+    Value: !Ref PrivateSubnet2
   SecurityGroupId:
     Value: !GetAtt ProjectVpc.DefaultSecurityGroup
 
