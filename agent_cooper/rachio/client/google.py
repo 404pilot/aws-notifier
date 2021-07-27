@@ -8,6 +8,8 @@ from googleapiclient import errors, discovery
 from oauth2client import client
 
 
+# Great thanks to
+# https://medium.com/@nakulkurane/sending-gmail-on-aws-lambda-via-python-a7fa991a97f1
 class Gmail:
     def __init__(self, client_id, client_secret, refresh_token):
         self._credentials = client.GoogleCredentials(
