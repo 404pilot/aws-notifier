@@ -33,5 +33,4 @@ Resources:
         ProjectName: !Ref ProjectName
         LayerArn: !GetAtt LambdaLayers.Outputs.PythonDepLayerArn
         SecurityGroupId: !GetAtt ProjectVpc.Outputs.SecurityGroupId
-        VpcPrivateSubnetId1: !GetAtt ProjectVpc.Outputs.VpcPrivateSubnetId1
-        VpcPrivateSubnetId2: !GetAtt ProjectVpc.Outputs.VpcPrivateSubnetId2
+        VpcSubnetId1: !GetAtt ProjectVpc.Outputs.VpcSubnetId1

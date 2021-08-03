@@ -10,9 +10,7 @@ Parameters:
     Type: String
   SecurityGroupId:
     Type: String
-  VpcPrivateSubnetId1:
-    Type: String
-  VpcPrivateSubnetId2:
+  VpcSubnetId1:
     Type: String
 
 Globals:
@@ -27,8 +25,7 @@ Globals:
       SecurityGroupIds:
         - !Ref SecurityGroupId
       SubnetIds:
-        - !Ref VpcPrivateSubnetId1
-        - !Ref VpcPrivateSubnetId2
+        - !Ref VpcSubnetId1
     Environment:
       Variables:
         STAGE: !Ref Stage

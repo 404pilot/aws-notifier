@@ -8,12 +8,8 @@ Parameters:
     Type: String
 
 Outputs:
-  NatIps:
-    Value: !Join [ ", ", [ !Ref NatPublicIP1, !Ref NatPublicIP2 ] ]
-  VpcPrivateSubnetId1:
-    Value: !Ref PrivateSubnet1
-  VpcPrivateSubnetId2:
-    Value: !Ref PrivateSubnet2
+  VpcSubnetId1:
+    Value: !Ref PublicSubnet1
   SecurityGroupId:
     Value: !GetAtt ProjectVpc.DefaultSecurityGroup
 
@@ -49,45 +45,6 @@ Resources:
         - Key: Name
           Value: !Sub "${ProjectName} Public-Subnet1"
 
-  PublicSubnet2:
-    Type: 'AWS::EC2::Subnet'
-    Properties:
-      VpcId: !Ref ProjectVpc
-      AvailabilityZone: !Select
-        - 1
-        - Fn::GetAZs: !Ref 'AWS::Region'
-      CidrBlock: 10.0.1.0/24
-      MapPublicIpOnLaunch: true
-      Tags:
-        - Key: Name
-          Value: !Sub "${ProjectName} Public-Subnet2"
-
-  PrivateSubnet1:
-    Type: 'AWS::EC2::Subnet'
-    Properties:
-      VpcId: !Ref ProjectVpc
-      AvailabilityZone: !Select
-        - 2
-        - Fn::GetAZs: !Ref 'AWS::Region'
-      CidrBlock: 10.0.2.0/24
-      MapPublicIpOnLaunch: false
-      Tags:
-        - Key: Name
-          Value: !Sub "${ProjectName} Private-Subnet1"
-
-  PrivateSubnet2:
-    Type: 'AWS::EC2::Subnet'
-    Properties:
-      VpcId: !Ref ProjectVpc
-      AvailabilityZone: !Select
-        - 3
-        - Fn::GetAZs: !Ref 'AWS::Region'
-      CidrBlock: 10.0.3.0/24
-      MapPublicIpOnLaunch: false
-      Tags:
-        - Key: Name
-          Value: !Sub "${ProjectName} Private-Subnet2"
-
   InternetGateway:
     Type: 'AWS::EC2::InternetGateway'
     Properties:
@@ -122,105 +79,3 @@ Resources:
     Properties:
       SubnetId: !Ref PublicSubnet1
       RouteTableId: !Ref PublicRouteTable1
-
-  PublicRouteTable2:
-    Type: 'AWS::EC2::RouteTable'
-    Properties:
-      VpcId: !Ref ProjectVpc
-      Tags:
-        - Key: Name
-          Value: !Sub "${ProjectName} public route table 2"
-
-  PublicRoute2:
-    Type: 'AWS::EC2::Route'
-    DependsOn: GatewayToInternet
-    Properties:
-      RouteTableId: !Ref PublicRouteTable2
-      DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: !Ref InternetGateway
-
-  PublicSubnet2RouteTableAssociation:
-    Type: 'AWS::EC2::SubnetRouteTableAssociation'
-    Properties:
-      SubnetId: !Ref PublicSubnet2
-      RouteTableId: !Ref PublicRouteTable2
-
-  #- private net 1 -> nat gateway 1 ----------------------------------------
-  NatPublicIP1:
-    Type: 'AWS::EC2::EIP'
-    DependsOn: ProjectVpc
-    Properties:
-      Domain: vpc
-      Tags:
-        - Key: Name
-          Value: !Sub "${ProjectName} Nat Public Ip 1"
-
-  NatGateway1:
-    Type: 'AWS::EC2::NatGateway'
-    Properties:
-      AllocationId: !GetAtt NatPublicIP1.AllocationId
-      SubnetId: !Ref PublicSubnet1
-      Tags:
-        - Key: Name
-          Value: !Sub "${ProjectName} NGW 1"
-
-  PrivateRouteTable1:
-    Type: 'AWS::EC2::RouteTable'
-    Properties:
-      VpcId: !Ref ProjectVpc
-      Tags:
-        - Key: Name
-          Value: !Sub "${ProjectName} Private Route Table 1"
-
-  PrivateRoute1:
-    Type: 'AWS::EC2::Route'
-    Properties:
-      RouteTableId: !Ref PrivateRouteTable1
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NatGateway1
-
-  PrivateSubnet1RouteTableAssociation:
-    Type: 'AWS::EC2::SubnetRouteTableAssociation'
-    Properties:
-      SubnetId: !Ref PrivateSubnet1
-      RouteTableId: !Ref PrivateRouteTable1
-
-  #- private net 2 -> nat gateway 2 ----------------------------------------
-  NatPublicIP2:
-    Type: 'AWS::EC2::EIP'
-    DependsOn: ProjectVpc
-    Properties:
-      Domain: vpc
-      Tags:
-        - Key: Name
-          Value: !Sub "${ProjectName} Nat Public Ip 2"
-
-  NatGateway2:
-    Type: 'AWS::EC2::NatGateway'
-    Properties:
-      AllocationId: !GetAtt NatPublicIP2.AllocationId
-      SubnetId: !Ref PublicSubnet2
-      Tags:
-        - Key: Name
-          Value: !Sub "${ProjectName} NGW 2"
-
-  PrivateRouteTable2:
-    Type: 'AWS::EC2::RouteTable'
-    Properties:
-      VpcId: !Ref ProjectVpc
-      Tags:
-        - Key: Name
-          Value: !Sub "${ProjectName} Private Route Table 2"
-
-  PrivateRoute2:
-    Type: 'AWS::EC2::Route'
-    Properties:
-      RouteTableId: !Ref PrivateRouteTable2
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NatGateway2
-
-  PrivateSubnet2RouteTableAssociation:
-    Type: 'AWS::EC2::SubnetRouteTableAssociation'
-    Properties:
-      SubnetId: !Ref PrivateSubnet2
-      RouteTableId: !Ref PrivateRouteTable2
